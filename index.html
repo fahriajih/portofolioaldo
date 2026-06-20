@@ -1,0 +1,1461 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aldo Prasetya Panca Sakti — Portofolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+/* ============================================================
+   ALDO PRASETYA PANCA SAKTI — PORTOFOLIO
+   Tema visual: "Jejak & Kompas" — terinspirasi dari peta topografi,
+   kompas pramuka, dan kartu tanda jasa (lencana). Bukan navy-gold
+   generik: palet hutan-tanah dengan aksen kuningan lencana asli.
+   ============================================================ */
+
+:root{
+  /* --- Palette: tanah, hutan malam, kuningan lencana --- */
+  --bg-0:#13160f;          /* hutan malam — dasar gelap berlumut */
+  --bg-1:#1b1f16;          /* panel sedikit lebih terang */
+  --bg-2:#23291d;          /* card surface */
+  --line:#3a4230;          /* garis kontur peta */
+  --paper:#f3ecdb;         /* kertas peta tua */
+  --paper-dim:#cfc6ab;
+  --brass:#b8923f;         /* kuningan lencana */
+  --brass-bright:#e0b563;
+  --moss:#7a8a5c;          /* hijau lumut aksen sekunder */
+  --rust:#a85c3a;          /* terracotta tanah / tali pramuka */
+  --ok:#7a9a6a;
+  --bad:#b5573f;
+
+  --font-display:'Fraunces', serif;
+  --font-body:'Space Grotesk', sans-serif;
+  --font-mono:'JetBrains Mono', monospace;
+
+  --radius:2px;
+  --shadow-card: 0 1px 0 rgba(0,0,0,.4), 0 12px 28px -14px rgba(0,0,0,.6);
+  color-scheme: dark;
+}
+
+[data-theme="light"]{
+  --bg-0:#f3ecdb;
+  --bg-1:#ece3cc;
+  --bg-2:#e5dabc;
+  --line:#c9bd9a;
+  --paper:#1b1f16;
+  --paper-dim:#3a4230;
+  --brass:#8a6a2a;
+  --brass-bright:#a87e30;
+  --moss:#586b3f;
+  --rust:#8a4528;
+  --ok:#4f7a3e;
+  --bad:#93412c;
+  color-scheme: light;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg-0);
+  color:var(--paper);
+  font-family:var(--font-body);
+  line-height:1.6;
+  overflow-x:hidden;
+  transition:background .4s ease,color .4s ease;
+}
+
+/* contour map background texture */
+body::before{
+  content:'';
+  position:fixed; inset:0;
+  background-image:
+    radial-gradient(circle at 15% 20%, transparent 0, transparent 60px, var(--line) 61px, transparent 62px),
+    radial-gradient(circle at 15% 20%, transparent 0, transparent 100px, var(--line) 101px, transparent 102px),
+    radial-gradient(circle at 85% 75%, transparent 0, transparent 80px, var(--line) 81px, transparent 82px),
+    radial-gradient(circle at 85% 75%, transparent 0, transparent 130px, var(--line) 131px, transparent 132px);
+  opacity:.25;
+  pointer-events:none;
+  z-index:0;
+}
+
+::selection{background:var(--brass);color:var(--bg-0);}
+
+/* grain/noise texture overlay for premium print-like feel */
+.noise-overlay{
+  position:fixed;inset:0;z-index:2;pointer-events:none;
+  opacity:.035;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* scroll progress bar */
+#scroll-progress{
+  position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--rust),var(--brass-bright));
+  z-index:1100;width:0%;transition:width .1s linear;
+}
+
+/* custom cursor (desktop only) */
+.cursor-dot, .cursor-ring{
+  position:fixed;top:0;left:0;pointer-events:none;z-index:9997;
+  border-radius:50%;transform:translate(-50%,-50%);
+  will-change:transform;
+}
+.cursor-dot{width:6px;height:6px;background:var(--brass-bright);transition:opacity .2s;}
+.cursor-ring{width:34px;height:34px;border:1px solid var(--brass);opacity:.6;transition:width .2s,height .2s,opacity .2s,border-color .2s;}
+.cursor-ring.hovering{width:54px;height:54px;border-color:var(--brass-bright);opacity:.9;}
+@media(max-width:860px), (hover:none){
+  .cursor-dot, .cursor-ring{display:none;}
+}
+
+::-webkit-scrollbar{width:6px;}
+::-webkit-scrollbar-track{background:var(--bg-1);}
+::-webkit-scrollbar-thumb{background:var(--brass);border-radius:3px;}
+
+a{color:inherit;text-decoration:none;}
+ul{list-style:none;}
+img{max-width:100%;display:block;}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;}
+input,textarea{font-family:inherit;}
+
+.container{max-width:1180px;margin:0 auto;padding:0 32px;}
+.eyebrow{
+  font-family:var(--font-mono);
+  font-size:.72rem;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--brass-bright);
+  display:flex;align-items:center;gap:10px;
+  margin-bottom:14px;
+}
+.eyebrow::before{content:'';width:22px;height:1px;background:var(--brass);}
+
+.section-head{margin-bottom:48px;max-width:640px;}
+.section-head h2{
+  font-family:var(--font-display);
+  font-weight:700;
+  font-size:clamp(1.8rem,4vw,2.6rem);
+  font-style:italic;
+}
+.section-head p{color:var(--paper-dim);margin-top:10px;font-size:.98rem;}
+
+section{position:relative;z-index:1;padding:110px 0;}
+
+/* ============== LOADING SCREEN ============== */
+#loading-screen{
+  position:fixed;inset:0;z-index:9999;
+  background:var(--bg-0);
+  display:flex;align-items:center;justify-content:center;flex-direction:column;gap:18px;
+  transition:opacity .6s ease, visibility .6s ease;
+}
+#loading-screen.hide{opacity:0;visibility:hidden;}
+.compass-loader{
+  width:64px;height:64px;border-radius:50%;
+  border:1px solid var(--line);
+  position:relative;
+  display:flex;align-items:center;justify-content:center;
+}
+.compass-loader::before{
+  content:'';
+  position:absolute;
+  width:2px;height:24px;
+  background:linear-gradient(to bottom, var(--rust) 50%, var(--paper-dim) 50%);
+  top:8px;left:50%;transform-origin:bottom center;translate:-50% 0;
+  animation:spin-needle 1.1s linear infinite;
+}
+@keyframes spin-needle{to{transform:translate(-50%,0) rotate(360deg);}}
+.loading-text{font-family:var(--font-mono);font-size:.72rem;letter-spacing:.2em;color:var(--paper-dim);text-transform:uppercase;}
+
+/* ============== NAVBAR ============== */
+header.navbar{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  background:color-mix(in srgb, var(--bg-0) 78%, transparent);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);
+  transition:background .4s ease,border-color .4s ease;
+}
+.nav-inner{
+  max-width:1180px;margin:0 auto;padding:16px 32px;
+  display:flex;align-items:center;justify-content:space-between;gap:20px;
+}
+.logo-mark{
+  width:40px;height:40px;border-radius:50%;
+  border:1px solid var(--brass);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-display);font-weight:700;font-style:italic;
+  font-size:1rem;color:var(--brass-bright);
+  flex-shrink:0;
+}
+.nav-links{display:flex;gap:28px;align-items:center;}
+.nav-links a{
+  font-family:var(--font-mono);font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--paper-dim);position:relative;padding-bottom:3px;transition:color .25s;
+}
+.nav-links a::after{
+  content:'';position:absolute;bottom:0;left:0;width:0;height:1px;background:var(--brass-bright);
+  transition:width .25s ease;
+}
+.nav-links a:hover{color:var(--paper);}
+.nav-links a:hover::after{width:100%;}
+
+.nav-right{display:flex;align-items:center;gap:18px;}
+.clock-widget{
+  font-family:var(--font-mono);font-size:.7rem;color:var(--paper-dim);
+  text-align:right;line-height:1.3;display:none;
+}
+.theme-toggle{
+  width:38px;height:38px;border-radius:50%;border:1px solid var(--line);
+  display:flex;align-items:center;justify-content:center;color:var(--paper-dim);
+  transition:.25s;flex-shrink:0;
+}
+.theme-toggle:hover{border-color:var(--brass);color:var(--brass-bright);}
+.hamburger{
+  display:none;width:38px;height:38px;border:1px solid var(--line);border-radius:50%;
+  flex-direction:column;align-items:center;justify-content:center;gap:4px;flex-shrink:0;
+}
+.hamburger span{width:16px;height:1px;background:var(--paper-dim);transition:.25s;}
+.hamburger.active span:nth-child(1){transform:translateY(5px) rotate(45deg);}
+.hamburger.active span:nth-child(2){opacity:0;}
+.hamburger.active span:nth-child(3){transform:translateY(-5px) rotate(-45deg);}
+
+@media(max-width:860px){
+  .nav-links{
+    position:fixed;top:73px;left:0;right:0;bottom:0;
+    background:var(--bg-0);
+    flex-direction:column;justify-content:flex-start;padding:40px 32px;
+    transform:translateX(100%);transition:transform .35s ease;
+    z-index:999;
+  }
+  .nav-links.open{transform:translateX(0);}
+  .nav-links a{font-size:1rem;padding:14px 0;border-bottom:1px solid var(--line);width:100%;}
+  .hamburger{display:flex;}
+  .clock-widget{display:none !important;}
+}
+@media(min-width:861px){.clock-widget{display:block;}}
+
+/* ============== HERO ============== */
+.hero{
+  min-height:100vh;display:flex;align-items:center;
+  padding-top:140px;padding-bottom:80px;position:relative;
+  overflow:hidden;
+}
+#hero-canvas{position:absolute;inset:0;z-index:0;}
+.hero-inner{
+  position:relative;z-index:2;
+  display:grid;grid-template-columns:1.15fr .85fr;gap:60px;align-items:center;
+}
+.hero-name{
+  font-family:var(--font-display);
+  font-weight:900;
+  font-size:clamp(2.6rem,6vw,4.6rem);
+  line-height:1.02;
+  letter-spacing:-.01em;
+}
+.hero-name .grad{
+  background:linear-gradient(100deg,var(--brass-bright),var(--paper) 60%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.hero-typing{
+  font-family:var(--font-mono);font-size:.95rem;color:var(--brass-bright);
+  margin-top:18px;min-height:1.4em;letter-spacing:.02em;
+}
+.hero-typing .cursor{display:inline-block;width:8px;background:var(--brass-bright);margin-left:2px;animation:blink 1s step-end infinite;}
+@keyframes blink{50%{opacity:0;}}
+.hero-bio{margin-top:24px;color:var(--paper-dim);max-width:560px;font-size:1rem;}
+.hero-cta{display:flex;gap:14px;margin-top:36px;flex-wrap:wrap;}
+.btn{
+  font-family:var(--font-mono);font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;
+  padding:14px 26px;border-radius:var(--radius);transition:transform .25s cubic-bezier(.2,.8,.2,1),background .25s,color .25s,border-color .25s,box-shadow .25s;
+  display:inline-flex;align-items:center;gap:8px;position:relative;overflow:hidden;
+}
+.btn-primary{background:var(--brass);color:var(--bg-0);}
+.btn-primary::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(115deg, transparent 30%, rgba(255,255,255,.5) 50%, transparent 70%);
+  transform:translateX(-130%);transition:transform .6s ease;
+}
+.btn-primary:hover::after{transform:translateX(130%);}
+.btn-primary:hover{background:var(--brass-bright);transform:translateY(-2px);box-shadow:0 10px 24px -10px color-mix(in srgb, var(--brass) 60%, transparent);}
+.btn-ghost{border:1px solid var(--line);color:var(--paper);}
+.btn-ghost:hover{border-color:var(--brass);color:var(--brass-bright);transform:translateY(-2px);}
+
+.profile-wrapper{position:relative;display:flex;justify-content:center;}
+.profile-ring{
+  position:relative;width:260px;height:260px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+}
+.profile-ring::before{
+  content:'';position:absolute;inset:-9px;border-radius:50%;
+  background:conic-gradient(from 0deg, var(--brass), transparent 28%, var(--brass-bright) 50%, transparent 78%, var(--brass));
+  animation:spin-ring 7s linear infinite;
+  filter:drop-shadow(0 0 10px color-mix(in srgb, var(--brass) 55%, transparent));
+}
+.profile-ring::after{
+  content:'';position:absolute;inset:-26px;border-radius:50%;
+  border:1px dashed var(--line);
+  animation:spin-ring 90s linear infinite reverse;
+}
+@keyframes spin-ring{to{transform:rotate(360deg);}}
+.profile-glow{
+  position:absolute;inset:-36px;border-radius:50%;
+  background:radial-gradient(circle, color-mix(in srgb, var(--brass) 38%, transparent) 0%, transparent 70%);
+  animation:pulse-glow 3s ease-in-out infinite;
+}
+@keyframes pulse-glow{0%,100%{opacity:.45;transform:scale(1);}50%{opacity:1;transform:scale(1.04);}}
+.profile-image{
+  position:relative;width:240px;height:240px;border-radius:50%;
+  border:3px solid var(--bg-0);z-index:2;
+  transition:transform .45s cubic-bezier(.2,.8,.2,1), filter .45s ease;
+  display:block;object-fit:cover;object-position:center 18%;
+  transform:scale(1.35);
+  filter:saturate(1.05) contrast(1.03);
+  background:var(--bg-2);
+}
+.profile-wrapper:hover .profile-image{transform:scale(1.42);}
+.profile-badge{
+  position:absolute;bottom:2px;right:-4px;z-index:3;
+  background:var(--bg-1);border:1px solid var(--brass);
+  padding:8px 14px;border-radius:30px;
+  font-family:var(--font-mono);font-size:.66rem;letter-spacing:.04em;
+  display:flex;align-items:center;gap:6px;color:var(--brass-bright);
+  box-shadow:var(--shadow-card);
+  animation:badge-bob 3.2s ease-in-out infinite;
+}
+@keyframes badge-bob{0%,100%{transform:translateY(0);}50%{transform:translateY(-5px);}}
+
+@media(max-width:900px){
+  .hero-inner{grid-template-columns:1fr;text-align:center;}
+  .hero-cta{justify-content:center;}
+  .profile-wrapper{order:-1;}
+  .hero-bio{margin-left:auto;margin-right:auto;}
+}
+
+/* hero entrance choreography — fires once loading screen lifts */
+.hero-enter{opacity:0;transform:translateY(26px);transition:opacity .85s cubic-bezier(.16,.84,.32,1), transform .85s cubic-bezier(.16,.84,.32,1);}
+.hero-enter.in{opacity:1;transform:translateY(0);}
+.eyebrow.hero-enter{transition-delay:.05s;}
+.hero-name.hero-enter{transition-delay:.15s;}
+.hero-typing.hero-enter{transition-delay:.3s;}
+.hero-bio.hero-enter{transition-delay:.4s;}
+.hero-cta.hero-enter{transition-delay:.5s;}
+.profile-wrapper.hero-enter{transition-delay:.2s;transform:scale(.88);}
+.profile-wrapper.hero-enter.in{transform:scale(1);}
+
+/* ============== STATS ============== */
+.stats-strip{border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+.stats-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);
+}
+.stat-item{
+  padding:42px 20px;text-align:center;border-right:1px solid var(--line);
+}
+.stat-item:last-child{border-right:none;}
+.stat-num{
+  font-family:var(--font-display);font-weight:700;font-style:italic;
+  font-size:clamp(2rem,4vw,2.8rem);color:var(--brass-bright);
+}
+.stat-label{
+  font-family:var(--font-mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--paper-dim);margin-top:8px;
+}
+@media(max-width:700px){
+  .stats-grid{grid-template-columns:repeat(2,1fr);}
+  .stat-item{border-bottom:1px solid var(--line);}
+}
+
+/* ============== TENTANG SAYA ============== */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;}
+.about-text p{color:var(--paper-dim);font-size:1.02rem;margin-bottom:20px;}
+.about-quote{
+  font-family:var(--font-display);font-style:italic;font-weight:600;
+  font-size:1.3rem;color:var(--paper);
+  border-left:2px solid var(--brass);padding-left:20px;margin-top:28px;
+}
+.values-list{display:flex;flex-direction:column;gap:0;}
+.value-row{
+  display:flex;align-items:center;gap:16px;padding:18px 0;
+  border-bottom:1px solid var(--line);
+}
+.value-row:first-child{border-top:1px solid var(--line);}
+.value-num{font-family:var(--font-mono);font-size:.72rem;color:var(--brass-bright);width:24px;flex-shrink:0;}
+.value-name{font-family:var(--font-display);font-weight:600;font-size:1.1rem;}
+@media(max-width:860px){.about-grid{grid-template-columns:1fr;gap:36px;}}
+
+/* ============== TIMELINE PENGALAMAN ============== */
+.timeline{position:relative;max-width:760px;margin:0 auto;}
+.timeline::before{
+  content:'';position:absolute;left:20px;top:6px;bottom:6px;width:1px;
+  background:linear-gradient(to bottom, var(--brass), var(--line));
+}
+.tl-item{
+  position:relative;padding-left:62px;margin-bottom:38px;
+  opacity:0;transform:translateX(-16px);transition:opacity .6s ease, transform .6s ease;
+}
+.tl-item.visible{opacity:1;transform:translateX(0);}
+.tl-dot{
+  position:absolute;left:8px;top:2px;width:25px;height:25px;border-radius:50%;
+  background:var(--bg-1);border:1px solid var(--brass);
+  display:flex;align-items:center;justify-content:center;font-size:.78rem;z-index:1;
+}
+.tl-year{font-family:var(--font-mono);font-size:.7rem;color:var(--brass-bright);letter-spacing:.06em;}
+.tl-role{font-family:var(--font-display);font-weight:600;font-size:1.18rem;margin-top:4px;}
+.tl-org{color:var(--paper-dim);font-size:.92rem;margin-top:2px;}
+
+/* ============== PRESTASI ============== */
+.achieve-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;perspective:1200px;}
+.achieve-card{
+  background:var(--bg-2);border:1px solid var(--line);border-radius:var(--radius);
+  padding:26px;position:relative;overflow:hidden;
+  transition:transform .15s ease-out,border-color .3s ease,box-shadow .3s ease;
+  opacity:0;transform:translateY(18px);
+  transform-style:preserve-3d;
+}
+.achieve-card.visible{opacity:1;transform:translateY(0);}
+.achieve-card::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(115deg, transparent 30%, color-mix(in srgb, var(--brass-bright) 18%, transparent) 45%, transparent 60%);
+  transform:translateX(-120%);transition:transform .65s ease;
+  pointer-events:none;
+}
+.achieve-card:hover::before{transform:translateX(120%);}
+.achieve-card:hover{border-color:var(--brass);box-shadow:0 18px 40px -18px rgba(0,0,0,.7), var(--shadow-card);}
+.achieve-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px;}
+.achieve-badge{
+  font-size:1.3rem;
+}
+.achieve-year{font-family:var(--font-mono);font-size:.68rem;color:var(--paper-dim);}
+.achieve-title{font-family:var(--font-display);font-weight:600;font-size:1.04rem;line-height:1.35;}
+.achieve-tag{
+  display:inline-block;margin-top:14px;font-family:var(--font-mono);font-size:.62rem;
+  letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:20px;
+}
+.tag-gold{background:color-mix(in srgb, var(--brass) 22%, transparent);color:var(--brass-bright);border:1px solid var(--brass);}
+.tag-bronze{background:color-mix(in srgb, var(--rust) 22%, transparent);color:var(--rust);border:1px solid var(--rust);}
+.tag-blue{background:color-mix(in srgb, var(--moss) 22%, transparent);color:var(--moss);border:1px solid var(--moss);}
+@media(max-width:900px){.achieve-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:560px){.achieve-grid{grid-template-columns:1fr;}}
+
+/* ============== SKILLS ============== */
+.skills-list{max-width:680px;margin:0 auto;display:flex;flex-direction:column;gap:26px;}
+.skill-row .skill-top{display:flex;justify-content:space-between;margin-bottom:8px;font-family:var(--font-mono);font-size:.78rem;}
+.skill-name{color:var(--paper);}
+.skill-pct{color:var(--brass-bright);}
+.skill-track{height:5px;background:var(--bg-2);border-radius:4px;overflow:hidden;border:1px solid var(--line);}
+.skill-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--brass),var(--brass-bright));transition:width 1.4s cubic-bezier(.2,.8,.2,1);}
+
+/* ============== QUIZ ============== */
+.quiz-panel{
+  max-width:620px;margin:0 auto;background:var(--bg-2);border:1px solid var(--line);
+  border-radius:var(--radius);padding:40px;
+}
+.quiz-stage{display:none;}
+.quiz-stage.active{display:block;}
+.level-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:24px;}
+.level-btn{
+  border:1px solid var(--line);padding:18px;border-radius:var(--radius);text-align:left;transition:.25s;
+}
+.level-btn:hover{border-color:var(--brass);background:var(--bg-1);}
+.level-btn .lv-name{font-family:var(--font-display);font-weight:600;font-size:1.05rem;}
+.level-btn .lv-desc{font-family:var(--font-mono);font-size:.66rem;color:var(--paper-dim);margin-top:4px;}
+.quiz-topbar{display:flex;justify-content:space-between;align-items:center;font-family:var(--font-mono);font-size:.72rem;color:var(--paper-dim);margin-bottom:18px;}
+.quiz-progress-track{height:3px;background:var(--bg-1);border-radius:3px;overflow:hidden;margin-bottom:30px;}
+.quiz-progress-fill{height:100%;background:var(--brass-bright);transition:width .3s ease;}
+.quiz-timer{font-family:var(--font-mono);color:var(--rust);}
+.quiz-question{
+  font-family:var(--font-display);font-weight:700;font-size:2.2rem;text-align:center;margin:30px 0 28px;
+}
+.quiz-input-row{display:flex;gap:12px;justify-content:center;}
+.quiz-input-row input{
+  width:140px;text-align:center;background:var(--bg-1);border:1px solid var(--line);
+  color:var(--paper);font-family:var(--font-mono);font-size:1.1rem;padding:14px;border-radius:var(--radius);
+}
+.quiz-input-row input:focus{outline:none;border-color:var(--brass);}
+.quiz-feedback{
+  text-align:center;margin-top:18px;font-family:var(--font-mono);font-size:.85rem;min-height:1.4em;
+}
+.quiz-feedback.ok{color:var(--ok);}
+.quiz-feedback.bad{color:var(--bad);}
+.quiz-result{text-align:center;}
+.quiz-result .score-big{font-family:var(--font-display);font-weight:900;font-size:3.4rem;color:var(--brass-bright);}
+.quiz-stars{font-size:1.6rem;margin:14px 0;letter-spacing:4px;}
+.quiz-highscore{font-family:var(--font-mono);font-size:.72rem;color:var(--paper-dim);margin-top:10px;}
+
+/* ============== KONTAK ============== */
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;}
+.form-group{margin-bottom:20px;}
+.form-group label{
+  display:block;font-family:var(--font-mono);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--paper-dim);margin-bottom:8px;
+}
+.form-group input,.form-group textarea{
+  width:100%;background:var(--bg-2);border:1px solid var(--line);color:var(--paper);
+  padding:14px 16px;border-radius:var(--radius);font-size:.95rem;transition:border-color .25s;
+}
+.form-group input:focus,.form-group textarea:focus{outline:none;border-color:var(--brass);}
+.form-group textarea{resize:vertical;min-height:120px;}
+.field-error{font-family:var(--font-mono);font-size:.66rem;color:var(--bad);margin-top:6px;min-height:1em;}
+.submit-btn{width:100%;justify-content:center;}
+.submit-btn[disabled]{opacity:.6;cursor:not-allowed;}
+.contact-info-item{display:flex;align-items:center;gap:16px;padding:18px 0;border-bottom:1px solid var(--line);}
+.contact-info-item:first-child{border-top:1px solid var(--line);}
+.contact-icon{
+  width:42px;height:42px;border-radius:50%;border:1px solid var(--brass);
+  display:flex;align-items:center;justify-content:center;color:var(--brass-bright);flex-shrink:0;
+}
+.contact-label{font-family:var(--font-mono);font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;color:var(--paper-dim);}
+.contact-value{font-size:.96rem;margin-top:2px;}
+@media(max-width:860px){.contact-grid{grid-template-columns:1fr;gap:40px;}}
+
+/* ============== FOOTER ============== */
+footer{border-top:1px solid var(--line);padding:50px 0 36px;text-align:center;}
+.footer-quote{font-family:var(--font-display);font-style:italic;font-size:1.1rem;color:var(--paper-dim);max-width:560px;margin:0 auto 26px;}
+.footer-social{display:flex;justify-content:center;gap:18px;margin-bottom:24px;}
+.footer-social a{
+  width:38px;height:38px;border-radius:50%;border:1px solid var(--line);
+  display:flex;align-items:center;justify-content:center;transition:.25s;
+}
+.footer-social a:hover{border-color:var(--brass);color:var(--brass-bright);transform:translateY(-2px);}
+.footer-copy{font-family:var(--font-mono);font-size:.7rem;color:var(--paper-dim);letter-spacing:.04em;}
+
+/* ============== FLOATING SOCIAL ============== */
+.floating-social{
+  position:fixed;right:24px;top:50%;transform:translateY(-50%);z-index:500;
+  display:flex;flex-direction:column;gap:12px;
+}
+.floating-social a{
+  width:42px;height:42px;border-radius:50%;background:var(--bg-2);border:1px solid var(--line);
+  display:flex;align-items:center;justify-content:center;animation:float-bob 3s ease-in-out infinite;
+  transition:.25s;
+}
+.floating-social a:nth-child(2){animation-delay:.4s;}
+.floating-social a:nth-child(3){animation-delay:.8s;}
+.floating-social a:nth-child(4){animation-delay:1.2s;}
+.floating-social a:hover{border-color:var(--brass);color:var(--brass-bright);}
+@keyframes float-bob{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
+@media(max-width:760px){.floating-social{display:none;}}
+
+/* ============== SCROLL TO TOP ============== */
+#scroll-top{
+  position:fixed;bottom:28px;right:28px;z-index:500;
+  width:46px;height:46px;border-radius:50%;background:var(--brass);color:var(--bg-0);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;visibility:hidden;transform:translateY(10px);
+  transition:.3s ease;box-shadow:var(--shadow-card);
+}
+#scroll-top.show{opacity:1;visibility:visible;transform:translateY(0);}
+#scroll-top:hover{background:var(--brass-bright);}
+
+/* ============== CONFETTI ============== */
+.confetti-piece{
+  position:fixed;top:-20px;width:8px;height:14px;z-index:9998;pointer-events:none;
+  animation:confetti-fall linear forwards;
+}
+@keyframes confetti-fall{
+  to{transform:translateY(110vh) rotate(540deg);opacity:.3;}
+}
+
+/* ============== reveal-on-scroll generic ============== */
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;}
+}
+
+a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible{
+  outline:2px solid var(--brass-bright);outline-offset:2px;
+}
+</style>
+</head>
+<body>
+
+<!-- ============== AMBIENT LAYERS ============== -->
+<div class="noise-overlay"></div>
+<div id="scroll-progress"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- ============== LOADING SCREEN ============== -->
+<div id="loading-screen">
+  <div class="compass-loader"></div>
+  <div class="loading-text">Memuat portofolio…</div>
+</div>
+
+<!-- ============== NAVBAR ============== -->
+<header class="navbar">
+  <div class="nav-inner">
+    <a href="#beranda" class="logo-mark">AP</a>
+    <nav class="nav-links" id="navLinks">
+      <a href="#beranda">Beranda</a>
+      <a href="#pengalaman">Pengalaman</a>
+      <a href="#prestasi">Prestasi</a>
+      <a href="#keahlian">Keahlian</a>
+      <a href="#quiz">Quiz</a>
+      <a href="#kontak">Kontak</a>
+    </nav>
+    <div class="nav-right">
+      <div class="clock-widget" id="clockWidget">—</div>
+      <button class="theme-toggle" id="themeToggle" aria-label="Ganti mode terang/gelap">
+        <i class="fa-solid fa-moon" id="themeIcon"></i>
+      </button>
+      <button class="hamburger" id="hamburger" aria-label="Buka menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ============== HERO ============== -->
+<section class="hero" id="beranda">
+  <canvas id="hero-canvas"></canvas>
+  <div class="container hero-inner">
+    <div>
+      <div class="eyebrow hero-enter">Portofolio Personal</div>
+      <h1 class="hero-name hero-enter">Aldo Prasetya<br><span class="grad">Panca Sakti</span></h1>
+      <div class="hero-typing hero-enter"><span id="typingText"></span><span class="cursor">&nbsp;</span></div>
+      <p class="hero-bio hero-enter">Saya adalah pribadi yang aktif, disiplin, dan bertanggung jawab dalam mengembangkan diri melalui organisasi dan kegiatan positif. Aktif dalam Pramuka sejak tingkat Penggalang hingga meraih Pramuka Garuda, berpengalaman sebagai Sekretaris OSIS SMP, aktif di Paskibra, dan gemar futsal sebagai sarana melatih kerja sama dan sportivitas.</p>
+      <div class="hero-cta hero-enter">
+        <a href="#kontak" class="btn btn-primary"><i class="fa-solid fa-envelope"></i> Hubungi Saya</a>
+        <a href="#prestasi" class="btn btn-ghost"><i class="fa-solid fa-medal"></i> Lihat Prestasi</a>
+      </div>
+    </div>
+    <div class="profile-wrapper hero-enter">
+      <div class="profile-glow"></div>
+      <div class="profile-ring">
+        <img class="profile-image" src="jore2.jpeg" alt="Foto profil Aldo Prasetya Panca Sakti" onerror="this.onerror=null;this.src='data:image/svg+xml;charset=UTF-8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22%3E%3Crect width=%22200%22 height=%22200%22 fill=%22%2323291d%22/%3E%3Ctext x=%22100%22 y=%22124%22 text-anchor=%22middle%22 font-family=%22Georgia,serif%22 font-weight=%22700%22 font-style=%22italic%22 font-size=%2278%22 fill=%22%23e0b563%22%3EAP%3C/text%3E%3C/svg%3E';">
+      </div>
+      <div class="profile-badge"><i class="fa-solid fa-award"></i> Pramuka Garuda</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== STATISTIK ============== -->
+<section class="stats-strip" style="padding:0;">
+  <div class="container" style="padding:0 32px;">
+    <div class="stats-grid">
+      <div class="stat-item"><div class="stat-num" data-count="7">0</div><div class="stat-label">Organisasi</div></div>
+      <div class="stat-item"><div class="stat-num" data-count="7">0</div><div class="stat-label">Prestasi</div></div>
+      <div class="stat-item"><div class="stat-num" data-count="5">0</div><div class="stat-label">Tahun Aktif</div></div>
+      <div class="stat-item"><div class="stat-num">🏅</div><div class="stat-label">Pramuka Garuda</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== TENTANG SAYA ============== -->
+<section id="tentang">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">Tentang Saya</div>
+      <h2>Berkarya, berprestasi, dan berdedikasi.</h2>
+    </div>
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p>Saya adalah pribadi yang aktif, disiplin, dan bertanggung jawab dalam mengembangkan diri melalui organisasi dan kegiatan positif. Saya aktif dalam Pramuka sejak tingkat Penggalang dan berhasil meraih Pramuka Garuda sebagai pencapaian tertinggi dalam Pramuka.</p>
+        <p>Selain itu, saya memiliki pengalaman berorganisasi sebagai Sekretaris OSIS SMP, aktif dalam Paskibra, serta sering mengikuti berbagai event dan perlombaan. Saya juga memiliki minat dalam olahraga, khususnya futsal, yang mengajarkan saya kerja sama, sportivitas, dan semangat pantang menyerah.</p>
+        <div class="about-quote">"Berkarya, Berprestasi, dan Berdedikasi"</div>
+      </div>
+      <div class="values-list reveal">
+        <div class="value-row"><span class="value-num">01</span><span class="value-name">Aktif</span></div>
+        <div class="value-row"><span class="value-num">02</span><span class="value-name">Disiplin</span></div>
+        <div class="value-row"><span class="value-num">03</span><span class="value-name">Bertanggung Jawab</span></div>
+        <div class="value-row"><span class="value-num">04</span><span class="value-name">Sportif</span></div>
+        <div class="value-row"><span class="value-num">05</span><span class="value-name">Pantang Menyerah</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== PENGALAMAN ORGANISASI ============== -->
+<section id="pengalaman" style="background:var(--bg-1);">
+  <div class="container">
+    <div class="section-head" style="margin-left:auto;margin-right:auto;text-align:center;">
+      <div class="eyebrow" style="justify-content:center;">Jejak Organisasi</div>
+      <h2>Pengalaman Organisasi</h2>
+    </div>
+    <div class="timeline" id="timelineList"></div>
+  </div>
+</section>
+
+<!-- ============== PRESTASI ============== -->
+<section id="prestasi">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">Tanda Jasa</div>
+      <h2>Prestasi &amp; Pencapaian</h2>
+    </div>
+    <div class="achieve-grid" id="achieveGrid"></div>
+  </div>
+</section>
+
+<!-- ============== KEAHLIAN ============== -->
+<section id="keahlian" style="background:var(--bg-1);">
+  <div class="container">
+    <div class="section-head" style="margin-left:auto;margin-right:auto;text-align:center;">
+      <div class="eyebrow" style="justify-content:center;">Kompetensi</div>
+      <h2>Keahlian</h2>
+    </div>
+    <div class="skills-list" id="skillsList"></div>
+  </div>
+</section>
+
+<!-- ============== QUIZ ============== -->
+<section id="quiz">
+  <div class="container">
+    <div class="section-head" style="margin-left:auto;margin-right:auto;text-align:center;">
+      <div class="eyebrow" style="justify-content:center;">Latih Otak</div>
+      <h2>Math Quiz Game</h2>
+      <p style="margin:10px auto 0;">Uji ketangkasan berhitungmu — 5 soal acak, waktu 15 detik per soal.</p>
+    </div>
+
+    <div class="quiz-panel">
+      <!-- Stage 1: pilih level -->
+      <div class="quiz-stage active" id="stageLevel">
+        <p style="font-family:var(--font-mono);font-size:.78rem;color:var(--paper-dim);text-align:center;">Pilih tingkat kesulitan</p>
+        <div class="level-grid">
+          <button class="level-btn" data-level="mudah"><div class="lv-name">Mudah</div><div class="lv-desc">1–10 · + −</div></button>
+          <button class="level-btn" data-level="sedang"><div class="lv-name">Sedang</div><div class="lv-desc">1–20 · + − ×</div></button>
+          <button class="level-btn" data-level="sulit"><div class="lv-name">Sulit</div><div class="lv-desc">1–50 · + − × ÷</div></button>
+          <button class="level-btn" data-level="sangatsulit"><div class="lv-name">Sangat Sulit</div><div class="lv-desc">1–100 · campuran</div></button>
+        </div>
+        <p class="quiz-highscore" id="highscoreDisplay" style="text-align:center;margin-top:24px;"></p>
+      </div>
+
+      <!-- Stage 2: soal -->
+      <div class="quiz-stage" id="stageQuestion">
+        <div class="quiz-topbar">
+          <span id="quizProgressLabel">Soal 1/5</span>
+          <span class="quiz-timer" id="quizTimer">15s</span>
+        </div>
+        <div class="quiz-progress-track"><div class="quiz-progress-fill" id="quizProgressFill" style="width:20%;"></div></div>
+        <div class="quiz-question" id="quizQuestionText">0 + 0</div>
+        <div class="quiz-input-row">
+          <input type="number" id="quizAnswerInput" placeholder="?" inputmode="numeric">
+          <button class="btn btn-primary" id="quizCheckBtn">Cek</button>
+        </div>
+        <div class="quiz-feedback" id="quizFeedback"></div>
+      </div>
+
+      <!-- Stage 3: hasil -->
+      <div class="quiz-stage" id="stageResult">
+        <div class="quiz-result">
+          <p style="font-family:var(--font-mono);font-size:.7rem;letter-spacing:.1em;color:var(--paper-dim);text-transform:uppercase;">Skor Akhir</p>
+          <div class="score-big" id="finalScore">0/5</div>
+          <div class="quiz-stars" id="finalStars">☆☆☆☆☆</div>
+          <p class="quiz-highscore" id="finalHighscore"></p>
+          <div class="hero-cta" style="justify-content:center;margin-top:24px;">
+            <button class="btn btn-primary" id="playAgainBtn">Main Lagi</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== KONTAK ============== -->
+<section id="kontak" style="background:var(--bg-1);">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">Mari Terhubung</div>
+      <h2>Hubungi Saya</h2>
+    </div>
+    <div class="contact-grid">
+      <form id="contactForm" novalidate>
+        <div class="form-group">
+          <label for="cName">Nama</label>
+          <input type="text" id="cName" name="name" required>
+          <div class="field-error" id="errName"></div>
+        </div>
+        <div class="form-group">
+          <label for="cEmail">Email</label>
+          <input type="email" id="cEmail" name="email" required>
+          <div class="field-error" id="errEmail"></div>
+        </div>
+        <div class="form-group">
+          <label for="cMessage">Pesan</label>
+          <textarea id="cMessage" name="message" required></textarea>
+          <div class="field-error" id="errMessage"></div>
+        </div>
+        <button type="submit" class="btn btn-primary submit-btn" id="submitBtn">Kirim Pesan</button>
+      </form>
+      <div class="contact-info">
+        <div class="contact-info-item">
+          <div class="contact-icon"><i class="fa-solid fa-envelope"></i></div>
+          <div><div class="contact-label">Email</div><div class="contact-value">alpanelite@gmail.com</div></div>
+        </div>
+        <div class="contact-info-item">
+          <div class="contact-icon"><i class="fa-solid fa-location-dot"></i></div>
+          <div><div class="contact-label">Lokasi</div><div class="contact-value">Bogor, Jawa Barat, Indonesia</div></div>
+        </div>
+        <div class="contact-info-item">
+          <div class="contact-icon"><i class="fa-brands fa-whatsapp"></i></div>
+          <div><div class="contact-label">WhatsApp</div><div class="contact-value">+62 812-3456-7890</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== FOOTER ============== -->
+<footer>
+  <div class="container">
+    <div class="footer-quote" id="footerQuote">"Berkarya, Berprestasi, dan Berdedikasi"</div>
+    <div class="footer-social">
+      <a href="https://www.instagram.com/alpncstya_?igsh=eGg5YTh0eWhhMzNu" target="_blank" rel="noopener" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+      <a href="https://wa.me/6281319617318" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+      <a href="mailto:alpanelite@gmail.com" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
+      <a href="https://linkedin.com/in/aldo-prasetya" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+    </div>
+    <div class="footer-copy">© 2026 Aldo Prasetya Panca Sakti. Seluruh hak dilindungi.</div>
+  </div>
+</footer>
+
+<!-- ============== FLOATING SOCIAL ============== -->
+<div class="floating-social">
+  <a href="https://www.instagram.com/alpncstya_?igsh=eGg5YTh0eWhhMzNu" target="_blank" rel="noopener" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+  <a href="https://wa.me/6281319617318" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+  <a href="mailto:alpanelite@gmail.com" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
+  <a href="https://linkedin.com/in/aldo-prasetya" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+</div>
+
+<!-- ============== SCROLL TO TOP ============== -->
+<button id="scroll-top" aria-label="Kembali ke atas"><i class="fa-solid fa-arrow-up"></i></button>
+
+<script>
+/* ============================================================
+   DATA
+   ============================================================ */
+const TIMELINE_DATA = [
+  { year:'2022–2023', role:'Sekretaris OSIS', org:'OSIS Nescar', icon:'🏫' },
+  { year:'2022–2023', role:'Juru Adat', org:'Scoutnescar', icon:'⚜️' },
+  { year:'2023–2024', role:'Juru Giat', org:'Scoutnescar', icon:'⚜️' },
+  { year:'2023', role:'Penggalang Garuda', org:'Gerakan Pramuka', icon:'🏅' },
+  { year:'2026–2027', role:'Juru Uang', org:'Otisfat', icon:'💼' },
+  { year:'2026–2027', role:'Anggota Utama', org:'Kpij', icon:'👥' },
+  { year:'2026–2027', role:'Ketua Bidang Public Relation', org:'Pandawarnic', icon:'📣' },
+];
+
+const ACHIEVEMENT_DATA = [
+  { badge:'🥇', tag:'gold', tagLabel:'Juara 2', year:'2023', title:'Juara 2 Tandu Putra — Gebyar Penggalang Sekabupaten Bogor' },
+  { badge:'🥇', tag:'gold', tagLabel:'Juara 2', year:'2025', title:'Juara 2 Pionering Bangunan Kompra Tingkat Nasional' },
+  { badge:'🥇', tag:'gold', tagLabel:'Juara 2', year:'2026', title:'Juara 2 Mini Pionering Tunas 14' },
+  { badge:'🥉', tag:'bronze', tagLabel:'Juara 3', year:'2023', title:'Juara 3 LKBB Tongkat Asco 6 Tingkat Nasional' },
+  { badge:'🏅', tag:'blue', tagLabel:'Pencapaian', year:'2023', title:'Penggalang Garuda Kabupaten Bogor' },
+  { badge:'🏅', tag:'blue', tagLabel:'Peserta', year:'2024', title:'Peserta Raimuna Daerah Jawa Barat' },
+  { badge:'🏅', tag:'blue', tagLabel:'Peserta', year:'2024', title:'Peserta Raimuna Cabang Kabupaten Bogor' },
+];
+
+const SKILLS_DATA = [
+  { name:'Kepemimpinan', pct:95 },
+  { name:'Public Speaking', pct:85 },
+  { name:'Pionering & Tandu', pct:90 },
+  { name:'Kerja Tim', pct:95 },
+  { name:'Disiplin', pct:98 },
+];
+
+const QUOTES = [
+  '"Berkarya, Berprestasi, dan Berdedikasi"',
+  '"Sekali Pramuka, tetap Pramuka — disiplin adalah kompas hidup."',
+  '"Kerja tim mengalahkan kerja sendiri."',
+  '"Pantang menyerah adalah cara untuk menang sebelum bertanding."',
+  '"Sportivitas adalah kemenangan yang sesungguhnya."',
+];
+
+const LEVELS = {
+  mudah:        { max:10,  ops:['+','-'] },
+  sedang:       { max:20,  ops:['+','-','×'] },
+  sulit:        { max:50,  ops:['+','-','×','÷'] },
+  sangatsulit:  { max:100, ops:['+','-','×','÷'] },
+};
+
+/* ============================================================
+   LOADING SCREEN + HERO ENTRANCE CHOREOGRAPHY
+   ============================================================ */
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('loading-screen').classList.add('hide');
+    document.querySelectorAll('.hero-enter').forEach(el => el.classList.add('in'));
+  }, 1000);
+});
+
+/* ============================================================
+   SCROLL PROGRESS BAR
+   ============================================================ */
+const scrollProgress = document.getElementById('scroll-progress');
+function updateScrollProgress(){
+  const h = document.documentElement;
+  const scrolled = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
+  scrollProgress.style.width = scrolled + '%';
+}
+window.addEventListener('scroll', updateScrollProgress);
+updateScrollProgress();
+
+/* ============================================================
+   CUSTOM CURSOR (desktop only — gracefully absent on touch)
+   ============================================================ */
+const cursorDot = document.getElementById('cursorDot');
+const cursorRing = document.getElementById('cursorRing');
+const isTouchDevice = window.matchMedia('(hover: none)').matches;
+if(!isTouchDevice && cursorDot && cursorRing){
+  let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
+  window.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX; mouseY = e.clientY;
+    cursorDot.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%,-50%)`;
+  });
+  function animateRing(){
+    ringX += (mouseX - ringX) * 0.18;
+    ringY += (mouseY - ringY) * 0.18;
+    cursorRing.style.transform = `translate(${ringX}px, ${ringY}px) translate(-50%,-50%)`;
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+  document.querySelectorAll('a, button, input, textarea, .achieve-card, .level-btn').forEach(el => {
+    el.addEventListener('mouseenter', () => cursorRing.classList.add('hovering'));
+    el.addEventListener('mouseleave', () => cursorRing.classList.remove('hovering'));
+  });
+}
+
+/* ============================================================
+   ACHIEVEMENT CARD 3D TILT (subtle, mouse-follow)
+   ============================================================ */
+function attachTilt(card){
+  card.addEventListener('mousemove', (e) => {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const rotateX = ((y / rect.height) - 0.5) * -8;
+    const rotateY = ((x / rect.width) - 0.5) * 8;
+    card.style.transform = `translateY(0) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = '';
+  });
+}
+const themeToggle = document.getElementById('themeToggle');
+const themeIcon = document.getElementById('themeIcon');
+function applyTheme(theme){
+  if(theme === 'light'){
+    document.documentElement.setAttribute('data-theme','light');
+    themeIcon.className = 'fa-solid fa-sun';
+  } else {
+    document.documentElement.removeAttribute('data-theme');
+    themeIcon.className = 'fa-solid fa-moon';
+  }
+  localStorage.setItem('ap-theme', theme);
+}
+const savedTheme = localStorage.getItem('ap-theme') || 'dark';
+applyTheme(savedTheme);
+themeToggle.addEventListener('click', () => {
+  const current = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+  applyTheme(current === 'light' ? 'dark' : 'light');
+});
+
+/* ============================================================
+   NAVBAR: mobile hamburger + smooth scroll close
+   ============================================================ */
+const hamburger = document.getElementById('hamburger');
+const navLinks = document.getElementById('navLinks');
+function toggleMenu(){
+  hamburger.classList.toggle('active');
+  navLinks.classList.toggle('open');
+}
+hamburger.addEventListener('click', toggleMenu);
+navLinks.querySelectorAll('a').forEach(a => {
+  a.addEventListener('click', () => {
+    hamburger.classList.remove('active');
+    navLinks.classList.remove('open');
+  });
+});
+
+/* ============================================================
+   LIVE CLOCK & DATE
+   ============================================================ */
+const dayNames = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+const monthNames = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+function updateClock(){
+  const now = new Date();
+  const day = dayNames[now.getDay()];
+  const date = now.getDate();
+  const month = monthNames[now.getMonth()];
+  const year = now.getFullYear();
+  const h = String(now.getHours()).padStart(2,'0');
+  const m = String(now.getMinutes()).padStart(2,'0');
+  document.getElementById('clockWidget').innerHTML = `${day}, ${date} ${month} ${year}<br>${h}:${m} WIB`;
+}
+updateClock();
+setInterval(updateClock, 1000 * 30);
+
+/* ============================================================
+   KEYBOARD SHORTCUTS: D = dark mode toggle, M = mobile menu
+   ============================================================ */
+document.addEventListener('keydown', (e) => {
+  const tag = document.activeElement.tagName;
+  if(tag === 'INPUT' || tag === 'TEXTAREA') return;
+  if(e.key.toLowerCase() === 'd'){
+    const current = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+    applyTheme(current === 'light' ? 'dark' : 'light');
+  }
+  if(e.key.toLowerCase() === 'm'){
+    if(window.innerWidth <= 860) toggleMenu();
+  }
+});
+
+/* ============================================================
+   HERO TYPING EFFECT
+   ============================================================ */
+const typingPhrases = ['Pramuka Garuda', 'Sekretaris OSIS', 'Anggota Paskibra', 'Pemain Futsal'];
+const typingEl = document.getElementById('typingText');
+let tpIndex = 0, tpChar = 0, tpDeleting = false;
+function typeLoop(){
+  const current = typingPhrases[tpIndex];
+  if(!tpDeleting){
+    tpChar++;
+    typingEl.textContent = current.slice(0, tpChar);
+    if(tpChar === current.length){
+      tpDeleting = true;
+      setTimeout(typeLoop, 1400);
+      return;
+    }
+  } else {
+    tpChar--;
+    typingEl.textContent = current.slice(0, tpChar);
+    if(tpChar === 0){
+      tpDeleting = false;
+      tpIndex = (tpIndex + 1) % typingPhrases.length;
+    }
+  }
+  setTimeout(typeLoop, tpDeleting ? 45 : 85);
+}
+typeLoop();
+
+/* ============================================================
+   HERO PARTICLE CANVAS (bintang emas berkedip)
+   ============================================================ */
+const canvas = document.getElementById('hero-canvas');
+const ctx = canvas.getContext('2d');
+let particles = [];
+function resizeCanvas(){
+  const hero = document.querySelector('.hero');
+  canvas.width = hero.offsetWidth;
+  canvas.height = hero.offsetHeight;
+}
+function initParticles(){
+  particles = [];
+  const count = Math.min(70, Math.floor(canvas.width / 18));
+  for(let i=0;i<count;i++){
+    particles.push({
+      x: Math.random()*canvas.width,
+      y: Math.random()*canvas.height,
+      r: Math.random()*1.6 + 0.4,
+      a: Math.random(),
+      speed: Math.random()*0.015 + 0.005,
+      dir: Math.random()*Math.PI*2,
+    });
+  }
+}
+function animateParticles(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  particles.forEach(p => {
+    p.a += p.speed * (Math.sin(p.dir) >= 0 ? 1 : -1);
+    if(p.a <= 0.1 || p.a >= 1) p.dir += Math.PI;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+    ctx.fillStyle = `rgba(184,146,63,${Math.max(0.1,Math.min(1,p.a))})`;
+    ctx.fill();
+  });
+  requestAnimationFrame(animateParticles);
+}
+resizeCanvas();
+initParticles();
+animateParticles();
+window.addEventListener('resize', () => { resizeCanvas(); initParticles(); });
+
+/* ============================================================
+   STATS COUNTER (animated on view)
+   ============================================================ */
+function animateCounter(el, target){
+  let current = 0;
+  const duration = 1200;
+  const stepTime = 16;
+  const steps = duration / stepTime;
+  const increment = target / steps;
+  const tick = () => {
+    current += increment;
+    if(current >= target){
+      el.textContent = target;
+      return;
+    }
+    el.textContent = Math.floor(current);
+    requestAnimationFrame(() => setTimeout(tick, stepTime));
+  };
+  tick();
+}
+let statsAnimated = false;
+const statsStrip = document.querySelector('.stats-strip');
+const statsObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting && !statsAnimated){
+      statsAnimated = true;
+      document.querySelectorAll('.stat-num[data-count]').forEach(el => {
+        animateCounter(el, parseInt(el.dataset.count, 10));
+      });
+    }
+  });
+}, { threshold: 0.4 });
+if(statsStrip) statsObserver.observe(statsStrip);
+
+/* ============================================================
+   RENDER: TIMELINE
+   ============================================================ */
+const timelineList = document.getElementById('timelineList');
+TIMELINE_DATA.forEach(item => {
+  const div = document.createElement('div');
+  div.className = 'tl-item';
+  div.innerHTML = `
+    <div class="tl-dot">${item.icon}</div>
+    <div class="tl-year">${item.year}</div>
+    <div class="tl-role">${item.role}</div>
+    <div class="tl-org">${item.org}</div>
+  `;
+  timelineList.appendChild(div);
+});
+
+/* ============================================================
+   RENDER: ACHIEVEMENTS
+   ============================================================ */
+const achieveGrid = document.getElementById('achieveGrid');
+const tagClassMap = { gold:'tag-gold', bronze:'tag-bronze', blue:'tag-blue' };
+ACHIEVEMENT_DATA.forEach(item => {
+  const card = document.createElement('div');
+  card.className = 'achieve-card';
+  card.innerHTML = `
+    <div class="achieve-top">
+      <span class="achieve-badge">${item.badge}</span>
+      <span class="achieve-year">${item.year}</span>
+    </div>
+    <div class="achieve-title">${item.title}</div>
+    <span class="achieve-tag ${tagClassMap[item.tag]}">${item.tagLabel}</span>
+  `;
+  achieveGrid.appendChild(card);
+  attachTilt(card);
+});
+
+/* ============================================================
+   RENDER: SKILLS
+   ============================================================ */
+const skillsList = document.getElementById('skillsList');
+SKILLS_DATA.forEach(skill => {
+  const row = document.createElement('div');
+  row.className = 'skill-row reveal';
+  row.innerHTML = `
+    <div class="skill-top"><span class="skill-name">${skill.name}</span><span class="skill-pct">${skill.pct}%</span></div>
+    <div class="skill-track"><div class="skill-fill" data-pct="${skill.pct}"></div></div>
+  `;
+  skillsList.appendChild(row);
+});
+
+/* ============================================================
+   SCROLL REVEAL (IntersectionObserver) — timeline, achieve cards, generic .reveal
+   ============================================================ */
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry, idx) => {
+    if(entry.isIntersecting){
+      const el = entry.target;
+      const siblings = Array.from(el.parentElement.children);
+      const order = siblings.indexOf(el);
+      setTimeout(() => el.classList.add('visible'), order * 90);
+      revealObserver.unobserve(el);
+    }
+  });
+}, { threshold: 0.15 });
+
+document.querySelectorAll('.tl-item, .achieve-card, .reveal').forEach(el => revealObserver.observe(el));
+
+// Skill bars fill on reveal
+const skillObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      const fill = entry.target.querySelector('.skill-fill');
+      if(fill) fill.style.width = fill.dataset.pct + '%';
+      skillObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.3 });
+document.querySelectorAll('.skill-row').forEach(el => skillObserver.observe(el));
+
+/* ============================================================
+   SCROLL TO TOP
+   ============================================================ */
+const scrollTopBtn = document.getElementById('scroll-top');
+window.addEventListener('scroll', () => {
+  scrollTopBtn.classList.toggle('show', window.scrollY > 500);
+});
+scrollTopBtn.addEventListener('click', () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+/* ============================================================
+   FOOTER: random quote of the day
+   ============================================================ */
+document.getElementById('footerQuote').textContent = QUOTES[Math.floor(Math.random()*QUOTES.length)];
+
+/* ============================================================
+   MATH QUIZ GAME
+   ============================================================ */
+const stageLevel = document.getElementById('stageLevel');
+const stageQuestion = document.getElementById('stageQuestion');
+const stageResult = document.getElementById('stageResult');
+
+const quizProgressLabel = document.getElementById('quizProgressLabel');
+const quizProgressFill = document.getElementById('quizProgressFill');
+const quizTimerEl = document.getElementById('quizTimer');
+const quizQuestionText = document.getElementById('quizQuestionText');
+const quizAnswerInput = document.getElementById('quizAnswerInput');
+const quizCheckBtn = document.getElementById('quizCheckBtn');
+const quizFeedback = document.getElementById('quizFeedback');
+const finalScore = document.getElementById('finalScore');
+const finalStars = document.getElementById('finalStars');
+const finalHighscore = document.getElementById('finalHighscore');
+const highscoreDisplay = document.getElementById('highscoreDisplay');
+const playAgainBtn = document.getElementById('playAgainBtn');
+
+let quizState = {
+  level: null,
+  questions: [],
+  currentIndex: 0,
+  score: 0,
+  timer: null,
+  timeLeft: 15,
+};
+
+function getHighScore(level){
+  return parseInt(localStorage.getItem('ap-quiz-highscore-' + level) || '0', 10);
+}
+function setHighScore(level, score){
+  const current = getHighScore(level);
+  if(score > current){
+    localStorage.setItem('ap-quiz-highscore-' + level, score);
+    return true;
+  }
+  return false;
+}
+function refreshHighscoreDisplay(){
+  const all = Object.keys(LEVELS).map(lv => `${lv}: ${getHighScore(lv)}/5`).join('  ·  ');
+  highscoreDisplay.textContent = `Rekor tertinggi — ${all}`;
+}
+refreshHighscoreDisplay();
+
+function generateQuestion(level){
+  const cfg = LEVELS[level];
+  const op = cfg.ops[Math.floor(Math.random()*cfg.ops.length)];
+  let a = Math.floor(Math.random()*cfg.max) + 1;
+  let b = Math.floor(Math.random()*cfg.max) + 1;
+  let answer;
+  switch(op){
+    case '+': answer = a + b; break;
+    case '-':
+      if(b > a) [a,b] = [b,a];
+      answer = a - b;
+      break;
+    case '×':
+      a = Math.floor(Math.random()*12) + 1;
+      b = Math.floor(Math.random()*12) + 1;
+      answer = a * b;
+      break;
+    case '÷':
+      b = Math.floor(Math.random()*10) + 1;
+      answer = Math.floor(Math.random()*10) + 1;
+      a = b * answer;
+      break;
+  }
+  return { text: `${a} ${op} ${b}`, answer };
+}
+
+function showStage(stage){
+  [stageLevel, stageQuestion, stageResult].forEach(s => s.classList.remove('active'));
+  stage.classList.add('active');
+}
+
+document.querySelectorAll('.level-btn').forEach(btn => {
+  btn.addEventListener('click', () => startQuiz(btn.dataset.level));
+});
+
+function startQuiz(level){
+  quizState.level = level;
+  quizState.questions = Array.from({length:5}, () => generateQuestion(level));
+  quizState.currentIndex = 0;
+  quizState.score = 0;
+  showStage(stageQuestion);
+  loadQuestion();
+}
+
+function loadQuestion(){
+  const q = quizState.questions[quizState.currentIndex];
+  quizQuestionText.textContent = q.text;
+  quizAnswerInput.value = '';
+  quizFeedback.textContent = '';
+  quizFeedback.className = 'quiz-feedback';
+  quizProgressLabel.textContent = `Soal ${quizState.currentIndex+1}/5`;
+  quizProgressFill.style.width = `${((quizState.currentIndex+1)/5)*100}%`;
+  quizAnswerInput.focus();
+  startTimer();
+}
+
+function startTimer(){
+  clearInterval(quizState.timer);
+  quizState.timeLeft = 15;
+  quizTimerEl.textContent = quizState.timeLeft + 's';
+  quizState.timer = setInterval(() => {
+    quizState.timeLeft--;
+    quizTimerEl.textContent = quizState.timeLeft + 's';
+    if(quizState.timeLeft <= 0){
+      clearInterval(quizState.timer);
+      handleAnswer(null);
+    }
+  }, 1000);
+}
+
+function handleAnswer(userValue){
+  clearInterval(quizState.timer);
+  const q = quizState.questions[quizState.currentIndex];
+  const correct = userValue !== null && parseInt(userValue,10) === q.answer;
+  if(correct){
+    quizState.score++;
+    quizFeedback.textContent = '✅ Benar!';
+    quizFeedback.className = 'quiz-feedback ok';
+  } else {
+    quizFeedback.textContent = `❌ Salah — jawaban: ${q.answer}`;
+    quizFeedback.className = 'quiz-feedback bad';
+  }
+  quizCheckBtn.disabled = true;
+  setTimeout(() => {
+    quizCheckBtn.disabled = false;
+    quizState.currentIndex++;
+    if(quizState.currentIndex < 5){
+      loadQuestion();
+    } else {
+      finishQuiz();
+    }
+  }, 1100);
+}
+
+quizCheckBtn.addEventListener('click', () => {
+  if(quizAnswerInput.value === '') return;
+  handleAnswer(quizAnswerInput.value);
+});
+quizAnswerInput.addEventListener('keydown', (e) => {
+  if(e.key === 'Enter') quizCheckBtn.click();
+});
+
+function finishQuiz(){
+  showStage(stageResult);
+  finalScore.textContent = `${quizState.score}/5`;
+  finalStars.textContent = '⭐'.repeat(quizState.score) + '☆'.repeat(5 - quizState.score);
+  const isNewRecord = setHighScore(quizState.level, quizState.score);
+  finalHighscore.textContent = isNewRecord ? '🎉 Rekor baru!' : `Rekor level ini: ${getHighScore(quizState.level)}/5`;
+  refreshHighscoreDisplay();
+  if(quizState.score === 5) launchConfetti();
+}
+
+playAgainBtn.addEventListener('click', () => showStage(stageLevel));
+
+/* ============================================================
+   CONFETTI ANIMATION
+   ============================================================ */
+function launchConfetti(){
+  const colors = ['#b8923f','#e0b563','#7a8a5c','#a85c3a','#f3ecdb'];
+  for(let i=0;i<60;i++){
+    const piece = document.createElement('div');
+    piece.className = 'confetti-piece';
+    piece.style.left = Math.random()*100 + 'vw';
+    piece.style.background = colors[Math.floor(Math.random()*colors.length)];
+    piece.style.animationDuration = (Math.random()*2 + 2) + 's';
+    piece.style.opacity = Math.random()*0.6 + 0.4;
+    document.body.appendChild(piece);
+    setTimeout(() => piece.remove(), 4200);
+  }
+}
+
+/* ============================================================
+   CONTACT FORM: real-time validation + simulated submit
+   ============================================================ */
+const contactForm = document.getElementById('contactForm');
+const cName = document.getElementById('cName');
+const cEmail = document.getElementById('cEmail');
+const cMessage = document.getElementById('cMessage');
+const errName = document.getElementById('errName');
+const errEmail = document.getElementById('errEmail');
+const errMessage = document.getElementById('errMessage');
+const submitBtn = document.getElementById('submitBtn');
+
+function validateName(){
+  if(cName.value.trim().length < 2){
+    errName.textContent = 'Nama wajib diisi (minimal 2 karakter).';
+    return false;
+  }
+  errName.textContent = '';
+  return true;
+}
+function validateEmail(){
+  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if(!re.test(cEmail.value.trim())){
+    errEmail.textContent = 'Format email tidak valid.';
+    return false;
+  }
+  errEmail.textContent = '';
+  return true;
+}
+function validateMessage(){
+  if(cMessage.value.trim().length < 5){
+    errMessage.textContent = 'Pesan terlalu pendek.';
+    return false;
+  }
+  errMessage.textContent = '';
+  return true;
+}
+cName.addEventListener('input', validateName);
+cEmail.addEventListener('input', validateEmail);
+cMessage.addEventListener('input', validateMessage);
+
+contactForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const validName = validateName();
+  const validEmail = validateEmail();
+  const validMessage = validateMessage();
+  if(!validName || !validEmail || !validMessage) return;
+
+  submitBtn.disabled = true;
+  const originalText = submitBtn.textContent;
+  submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Mengirim…';
+
+  setTimeout(() => {
+    submitBtn.innerHTML = '<i class="fa-solid fa-check"></i> Terkirim!';
+    setTimeout(() => {
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalText;
+      contactForm.reset();
+    }, 1800);
+  }, 3000);
+});
+
+/* ============================================================
+   ACTIVE NAV LINK ON SCROLL (extra polish)
+   ============================================================ */
+const sectionIds = ['beranda','pengalaman','prestasi','keahlian','quiz','kontak'];
+const navAnchors = document.querySelectorAll('.nav-links a');
+const sectionObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      const id = entry.target.id;
+      navAnchors.forEach(a => {
+        a.style.color = a.getAttribute('href') === '#' + id ? 'var(--brass-bright)' : '';
+      });
+    }
+  });
+}, { threshold: 0.4 });
+sectionIds.forEach(id => {
+  const el = document.getElementById(id);
+  if(el) sectionObserver.observe(el);
+});
+</script>
+</body>
+</html>
